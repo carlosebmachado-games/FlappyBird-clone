@@ -2,9 +2,14 @@ extends Node2D
 
 export var speed = -100
 
-func _ready():
-	set_process(true)
+onready var game = get_tree().current_scene
 
 func _process(delta):
-	position += Vector2(delta * speed, 0)
-	#position.x += delta * speed
+	if game.state == game.states.PLAYING:
+		position.x += delta * speed
+	if position.x < -1200:
+		queue_free()
+
+func _on_body_body_entered(body):
+	if body.name == "bird":
+		game.kill()
