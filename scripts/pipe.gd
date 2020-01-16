@@ -13,3 +13,7 @@ func _process(delta):
 func _on_body_body_entered(body):
 	if body.name == "bird":
 		game.kill()
+
+func _on_point_body_entered(body):
+	if body.name == "bird":
+		game.pontuar()

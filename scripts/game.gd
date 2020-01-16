@@ -3,6 +3,7 @@ extends Node2D
 onready var bird = $bird
 onready var background_anim = $background_anim
 onready var replay_timer = $replay_timer
+onready var score_label = $interface/hud/score
 
 var score = 0
 
@@ -14,6 +15,10 @@ func kill():
 	background_anim.stop()
 	state = states.GAME_OVER
 	replay_timer.start()
+
+func pontuar():
+	score += 1
+	score_label.text = str(score)
 
 func _on_replay_timer_timeout():
 	get_tree().reload_current_scene()

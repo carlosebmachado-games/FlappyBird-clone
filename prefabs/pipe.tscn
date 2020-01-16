@@ -1,10 +1,14 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/pipe.gd" type="Script" id=1]
 [ext_resource path="res://sprites/pipe-green.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 100, 610 )
+
+[sub_resource type="SegmentShape2D" id=2]
+a = Vector2( 0, -170 )
+b = Vector2( 0, 170 )
 
 [node name="pipe" type="Node2D"]
 script = ExtResource( 1 )
@@ -29,4 +33,11 @@ shape = SubResource( 1 )
 [node name="down_collision" type="CollisionShape2D" parent="body"]
 position = Vector2( 0, 775 )
 shape = SubResource( 1 )
+
+[node name="point" type="Area2D" parent="."]
+
+[node name="collision" type="CollisionShape2D" parent="point"]
+position = Vector2( 100, 0 )
+shape = SubResource( 2 )
 [connection signal="body_entered" from="body" to="." method="_on_body_body_entered"]
+[connection signal="body_entered" from="point" to="." method="_on_point_body_entered"]
