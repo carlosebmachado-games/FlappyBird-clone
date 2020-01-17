@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://scripts/game.gd" type="Script" id=1]
 [ext_resource path="res://sprites/background-day.png" type="Texture" id=2]
@@ -6,8 +6,11 @@
 [ext_resource path="res://sprites/yellowbird-downflap.png" type="Texture" id=4]
 [ext_resource path="res://sprites/yellowbird-midflap.png" type="Texture" id=5]
 [ext_resource path="res://sprites/yellowbird-upflap.png" type="Texture" id=6]
-[ext_resource path="res://prefabs/pipe.tscn" type="PackedScene" id=7]
-[ext_resource path="res://scripts/spawn.gd" type="Script" id=8]
+[ext_resource path="res://sound/wing.wav" type="AudioStream" id=7]
+[ext_resource path="res://prefabs/pipe.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scripts/spawn.gd" type="Script" id=9]
+[ext_resource path="res://sound/point.wav" type="AudioStream" id=10]
+[ext_resource path="res://sound/die.wav" type="AudioStream" id=11]
 
 [sub_resource type="Animation" id=1]
 resource_name = "background"
@@ -82,7 +85,6 @@ texture = ExtResource( 2 )
 centered = false
 
 [node name="bird" type="RigidBody2D" parent="."]
-editor/display_folded = true
 position = Vector2( 310, 660 )
 z_index = 10
 mode = 2
@@ -92,12 +94,14 @@ script = ExtResource( 3 )
 [node name="anim_sprite" type="AnimatedSprite" parent="bird"]
 scale = Vector2( 4, 4 )
 frames = SubResource( 2 )
-frame = 1
 playing = true
 
 [node name="collision" type="CollisionShape2D" parent="bird"]
 rotation = 1.5708
 shape = SubResource( 3 )
+
+[node name="snd_wing" type="AudioStreamPlayer" parent="bird"]
+stream = ExtResource( 7 )
 
 [node name="greater_limit" type="StaticBody2D" parent="."]
 editor/display_folded = true
@@ -117,11 +121,11 @@ editor/display_folded = true
 position = Vector2( 1000, 800 )
 z_index = 1
 
-[node name="pipe" parent="pipes" instance=ExtResource( 7 )]
+[node name="pipe" parent="pipes" instance=ExtResource( 8 )]
 speed = -350
 
 [node name="spawn" type="Position2D" parent="pipes"]
-script = ExtResource( 8 )
+script = ExtResource( 9 )
 
 [node name="spawn_timer" type="Timer" parent="pipes/spawn"]
 wait_time = 3.0
@@ -145,5 +149,13 @@ custom_fonts/font = SubResource( 6 )
 text = "0"
 align = 1
 valign = 1
+
+[node name="sound" type="Node" parent="."]
+
+[node name="score" type="AudioStreamPlayer" parent="sound"]
+stream = ExtResource( 10 )
+
+[node name="hit" type="AudioStreamPlayer" parent="sound"]
+stream = ExtResource( 11 )
 [connection signal="timeout" from="pipes/spawn/spawn_timer" to="pipes/spawn" method="_on_spawn_timer_timeout"]
 [connection signal="timeout" from="replay_timer" to="." method="_on_replay_timer_timeout"]

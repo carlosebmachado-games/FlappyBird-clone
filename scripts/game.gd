@@ -15,10 +15,12 @@ func kill():
 	background_anim.stop()
 	state = states.GAME_OVER
 	replay_timer.start()
+	$sound/hit.play()
 
 func pontuar():
 	score += 1
 	score_label.text = str(score)
+	$sound/score.play()
 
 func _on_replay_timer_timeout():
 	get_tree().reload_current_scene()
