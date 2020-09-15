@@ -8,5 +8,6 @@ func _input(event):
 
 func on_touch():
 	if game.state == game.states.PLAYING:
-		apply_impulse(Vector2(0, 0), Vector2(0, -1000))
+		linear_velocity = Vector2.ZERO
+		apply_impulse(Vector2(0, 0), Vector2(0, -800))
 		$snd_wing.play()
